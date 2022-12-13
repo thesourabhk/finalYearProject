@@ -21,7 +21,7 @@ function App() {
           <Route path="/" element = {<Home />} />
 
           {/* All PG's and hostels routes */}
-          <Route path="/pg" element = {<Service key="pg" category="pg"/>} />
+          <Route path="/pg" element = {<Service key="pg" category="india"/>} />
           <Route path="/pg/:id" element={<ServiceDetail category="pg"/>} />
 
           {/* All Hospitals routes */}
