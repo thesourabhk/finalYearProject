@@ -9,14 +9,15 @@ const App = () => {
 	const [data, setData] = useState([]);
 	const [searchValue, setSearchValue] = useState('');
 
+
 	const getDataRequest = async (searchValue) => {
-		const url = `http://www.omdbapi.com/?s=${searchValue}&apikey=62922bf3`;
+		const url = `https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*&prop=extracts&exchars=250&exintro=true&explaintext=true&generator=search&gsrlimit=20&gsrsearch={searchValue.length == 0 ? "india" : ${searchValue}}`;
 
 		const response = await fetch(url);
 		const responseJson = await response.json();
 
-		if (responseJson.Search) {
-			setData(responseJson.Search);
+		if (responseJson) {
+			setData(Object.values(responseJson.query.pages));
 		}
 	};
 
@@ -24,7 +25,7 @@ const App = () => {
 		getDataRequest(searchValue);
 	}, [searchValue]);
 
-
+    console.log(data);
 	return (
 		<div className='container-fluid movie-app'>
 			<div className='row d-flex align-items-center mt-4 mb-4'>
@@ -34,8 +35,8 @@ const App = () => {
 			<div className="container">
 				<div className="row">
 					{data.map((element) => {
-						return <div className="col-md-4" key={element.imdbID}>
-							<DataList image={element.Poster} year={element.Year} title={element.Title} />
+						return <div className="col-md-4" key={element.pageid}>
+							<DataList image={element.Poster} description={element.extract} title={element.Title} />
 						</div>
 					})}
 				</div>
