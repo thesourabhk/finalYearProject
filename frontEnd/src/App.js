@@ -31,10 +31,14 @@ const App = () => {
 				<DataListHeading heading='Data Related to search' />
 				<SearchBox searchValue={searchValue} setSearchValue={setSearchValue} />
 			</div>
-			<div className='row'>
-				<DataList
-					data={data}
-				/>
+			<div className="container">
+				<div className="row">
+					{data.map((element) => {
+						return <div className="col-md-4" key={element.imdbID}>
+							<DataList image={element.Poster} year={element.Year} title={element.Title} />
+						</div>
+					})}
+				</div>
 			</div>
 		</div>
 	);
