@@ -9,15 +9,17 @@ const App = () => {
 	const [data, setData] = useState([]);
 	const [searchValue, setSearchValue] = useState('india');
 
+	// prevUrl = `https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*&prop=extracts&exchars=250&exintro=true&explaintext=true&generator=search&gsrlimit=20&gsrsearch=${searchValue}`;
 
 	const getDataRequest = async (searchValue) => {
-		const url = `https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*&prop=extracts&exchars=250&exintro=true&explaintext=true&generator=search&gsrlimit=20&gsrsearch=${searchValue}`;
+		const url = `https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*&prop=pageimages|extracts&exchars=250&exintro=true&explaintext=true%7Cpageterms&redirects=1&formatversion=2&piprop=thumbnail&pithumbsize=250&pilimit=20&wbptterms=description&generator=search&gsrlimit=20&gsrsearch=${searchValue}`;
 
 		const response = await fetch(url);
 		const responseJson = await response.json();
 
 		if (responseJson) {
-			setData(Object.values(responseJson.query.pages));
+			// setData(Object.values(responseJson.query.pages));
+			setData(responseJson.query.pages);
 		}
 	};
 
@@ -25,7 +27,7 @@ const App = () => {
 		getDataRequest(searchValue);
 	}, [searchValue]);
 
-    console.log(data);
+    // console.log(data.thumbnail.source);
 	return (
 		<div className='container-fluid movie-app'>
 			<div className='row d-flex align-items-center mt-4 mb-4'>
@@ -36,7 +38,7 @@ const App = () => {
 				<div className="row">
 					{data.map((element) => {
 						return <div className="col-md-4" key={element.pageid}>
-							<DataList image={element.Poster} description={element.extract} title={element.title} />
+							<DataList image={!element.thumbnail?undefined:element.thumbnail.source} description={element.extract} title={element.title} />
 						</div>
 					})}
 				</div>
