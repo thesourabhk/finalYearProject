@@ -26,8 +26,7 @@ const App = () => {
 	useEffect(() => {
 		getDataRequest(searchValue);
 	}, [searchValue]);
-
-    // console.log(data.thumbnail.source);
+	
 	return (
 		<div className='container-fluid movie-app'>
 			<div className='row d-flex align-items-center mt-4 mb-4'>
